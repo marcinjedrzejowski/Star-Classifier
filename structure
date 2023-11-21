@@ -1,0 +1,13 @@
+project_root
+│   main.jl
+│   report.pdf
+│
+├── utils
+│   ├── data_loader.jl
+│   ├── preprocessing.jl
+│   ├── model_evaluation.jl
+│   ├── ensemble.jl
+│   └── visualization.jl
+│
+└── datasets
+    └── star_classification_data.csv
