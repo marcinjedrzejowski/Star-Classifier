@@ -3,7 +3,7 @@ module Preprocessing
         # Implement data normalization or other preprocessing steps
         # Return preprocessed data
         data = data[2:end, :];
-        input_index = [4,5,6,7,8,9,10,11,12,13,15,16,17,18];
+        input_index = [4,5,6,7,8,9,11,12,13,15,16,17,18];
         inputs = data[:,input_index];
         targets = data[:,14];
 
