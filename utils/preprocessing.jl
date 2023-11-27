@@ -2,8 +2,21 @@ module Preprocessing
     function preprocess_data(data)
         # Implement data normalization or other preprocessing steps
         # Return preprocessed data
+        data = data[2:end, :];
+        input_index = [4,5,6,7,8,9,10,11,12,13,15,16,17,18];
+        inputs = data[:,input_index];
+        targets = data[:,14];
+
+        inputs = convert(Array{Float32,2}, inputs);
+        targets = oneHotEncoding(targets);
+
+        inputs = normalizeMinMax(inputs);
+
+        return inputs, targets
 
     end
+
+
 
 
 
