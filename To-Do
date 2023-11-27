@@ -1,5 +1,5 @@
 21.11.2023
 # 1. Find 3 articles connected to star classification
-# 2. Load, check the dataset for missing values, normalize
-# 3. Preprocess the data (string -> integer/bool, etc.)
+# 2. Load, check the dataset for missing values, normalize (pre-process)
+# 3. Analyze the data
 # + Everyone decides on a way to solve the problem that will be implemented
