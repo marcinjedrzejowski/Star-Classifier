@@ -19,7 +19,6 @@ module Preprocessing
         inputs = normalizeMinMax(inputs);
 
         return inputs, targets
-
     end
 
 
@@ -33,6 +32,7 @@ module Preprocessing
         galaxies = galaxies[randperm(size(galaxies,1))[1:n],:];
         stars = stars[randperm(size(stars,1))[1:n],:];
         data = vcat(galaxies, stars, qso);
+        return data
     end
 
 
