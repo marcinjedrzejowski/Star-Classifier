@@ -6,15 +6,7 @@ module Preprocessing
         data = data[2:end, :];
 
         # Balance the dataset
-        n = count(data[:,14] .== "QSO");
-        # Select n random Galaxies and n random stars
-        galaxies = data[data[:,14] .== "GALAXY",:];
-        stars = data[data[:,14] .== "STAR",:];
-        qso = data[data[:,14] .== "QSO",:];
-        galaxies = galaxies[randperm(size(galaxies,1))[1:n],:];
-        stars = stars[randperm(size(stars,1))[1:n],:];
-        data = vcat(galaxies, stars, qso);
-
+        data = balance_data(data);
 
         input_index = [4,5,6,7,8,9,11,12,13,15,16,17,18];
         inputs = data[:,input_index];
@@ -23,10 +15,24 @@ module Preprocessing
         inputs = convert(Array{Float32,2}, inputs);
         targets = oneHotEncoding(targets);
 
+        # Normalize the inputs
         inputs = normalizeMinMax(inputs);
 
         return inputs, targets
 
+    end
+
+
+    function balance_data(data)
+        # Balance the dataset
+        n = count(data[:,14] .== "QSO");
+        # Select n random Galaxies and n random stars
+        galaxies = data[data[:,14] .== "GALAXY",:];
+        stars = data[data[:,14] .== "STAR",:];
+        qso = data[data[:,14] .== "QSO",:];
+        galaxies = galaxies[randperm(size(galaxies,1))[1:n],:];
+        stars = stars[randperm(size(stars,1))[1:n],:];
+        data = vcat(galaxies, stars, qso);
     end
 
 
