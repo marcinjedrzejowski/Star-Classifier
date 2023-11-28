@@ -8,7 +8,8 @@ module Preprocessing
         # Balance the dataset
         data = balance_data(data);
 
-        input_index = [4,5,6,7,8,9,11,12,13,15,16,17,18];
+        # input_index = [4,5,6,7,8,9,11,12,13,15,16,18];
+        input_index = [4,5,6,7,8];
         inputs = data[:,input_index];
         targets = data[:,14];
 
