@@ -17,7 +17,10 @@ module Preprocessing
         targets = oneHotEncoding(targets);
 
         # Normalize the inputs
-        inputs = normalizeMinMax(inputs);
+        normalizeMinMax!(inputs);
+
+        @assert isa(inputs, Array{<:Float32,2})
+        @assert isa(targets, AbstractArray{Bool,2})
 
         return inputs, targets
     end
@@ -33,6 +36,11 @@ module Preprocessing
         galaxies = galaxies[randperm(size(galaxies,1))[1:n],:];
         stars = stars[randperm(size(stars,1))[1:n],:];
         data = vcat(galaxies, stars, qso);
+
+        @assert(count(data[:,14] .== "QSO") == n)
+        @assert(count(data[:,14] .== "GALAXY") == n)
+        @assert(count(data[:,14] .== "STAR") == n)
+
         return data
     end
 
