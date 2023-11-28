@@ -21,7 +21,7 @@ module Preprocessing
         targets = data[:,14];
 
         inputs = convert(Array{Float32,2}, inputs);
-        # targets = oneHotEncoding(targets);
+        targets = oneHotEncoding(targets);
 
         inputs = normalizeMinMax(inputs);
 
