@@ -9,3 +9,5 @@ After loading the data, we apply the preprocess_data function which does the fol
 3. Performs one-hot encoding on the target variable, changing the target variables into binary vectors.
 4. Normalizes the inputs using min-max normalization.
 """
+
+## Why we have to vectorize the targets for crossvalidation?
