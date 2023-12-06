@@ -200,5 +200,150 @@ module Preprocessing
         indices = crossvalidation(targets, k);
         return indices;
     end;
+
+    # ONE VS ALL
+    using ScikitLearn;
+    function oneVSall(model, inputs::AbstractArray{<:Real,2}, targets::AbstractArray{Bool,2})
+        # Number of instances and classes
+        numInstances, numClasses = size(targets)
     
+        # Initialize the outputs matrix
+        model_outputs = Array{Float32,2}(undef, numInstances, numClasses)
+    
+        # Train a model for each class
+        for numClass in 1:numClasses
+            # Consider the current class as positive and rest as negative
+            currentTargets = targets[:, numClass]
+    
+            # Train the model using some binary classifier (this is a placeholder)
+            model = fit!(model, inputs, currentTargets)
+
+            # Store the model's output for all instances
+            model_outputs[:, numClass] .= predict(model, inputs)
+        end
+    
+        # Identify the class with the maximum output for each instance
+        finalOutputs = Array{Bool,2}(undef, numInstances, numClasses)
+        for i in 1:numInstances
+            maxVal = maximum(model_outputs[i, :])
+            maxIndices = findall(x -> x == maxVal, model_outputs[i, :])
+    
+            # Simple tie-breaking: choose the first maximum class
+            # Our tie-breaking criterion is taking the first index in maxIndices
+            finalOutputs[i, :] .= false
+            finalOutputs[i, maxIndices[1]] = true
+        end
+    
+        return finalOutputs, model
+    end
+    
+    # CONFUSION MATRIX
+    function confusionMatrix(outputs::AbstractArray{Bool,1}, targets::AbstractArray{Bool,1})
+        #TODO
+        @assert length(outputs) == length(targets)
+    
+        confusion_matrix = zeros(Int64, 2, 2)
+    
+        TN = sum((outputs .== false) .& (targets .== false))
+        FP = sum((outputs .== true) .& (targets .== false))
+        FN = sum((outputs .== false) .& (targets .== true))
+        TP = sum((outputs .== true) .& (targets .== true))
+    
+        if TN + FP + FN + TP == 0
+            accuracy = 0
+            error_rate = 0
+        else
+            accuracy = (TN + TP) / (TN + FP + FN + TP)
+            error_rate = (FP + FN) / (TN + FP + FN + TP)
+        end
+    
+        if TN == TN + FP + FN + TP
+            sensitivity = 1
+            ppv = 1
+        else
+            if TP + FN == 0
+                sensitivity = 0
+            else
+                sensitivity = TP / (TP + FN)
+            end
+    
+            if TP + FP == 0
+                ppv = 0
+            else
+                ppv = TP / (TP + FP)
+            end
+        end
+        
+        if TP == (TN + FP + FN + TP)
+            specificity = 1
+            npv = 1
+        else
+            if TN + FP == 0
+                specificity = 0
+            else
+                specificity = TN / (TN + FP)
+            end
+    
+            if TN + FN == 0
+                npv = 0
+            else
+                npv = TN / (TN + FN)
+            end
+        end
+        
+        if sensitivity == 0 && ppv == 0
+            fscore = 0
+        else
+            fscore = (2 * TP) / (2 * TP + FP + FN)
+        end
+        
+        confusion_matrix = [TN FP; FN TP]
+    
+        return accuracy, error_rate, sensitivity, specificity, ppv, npv, fscore, confusion_matrix
+    end
+
+    function confusionMatrix(outputs::AbstractArray{Bool,2}, targets::AbstractArray{Bool,2}; weighted::Bool=false)
+        #TODO
+        # @assert size(targets) != size(outputs)
+        
+        numInstances, numClasses = size(outputs)
+    
+        if numClasses == 1
+            return confusionMatrix(outputs[:, 1], targets[:, 1])
+        end
+    
+        Sensitivity = zeros(Float64, numClasses)
+        Specificity = zeros(Float64, numClasses)
+        PPV = zeros(Float64, numClasses)
+        NPV = zeros(Float64, numClasses)
+        F1 = zeros(Float64, numClasses)
+        Accuracy = zeros(Float64, numClasses)
+        ErrorRate = zeros(Float64, numClasses)
+    
+        for class in 1:numClasses
+            outputsClass = outputs[:, class]
+            targetsClass = targets[:, class]
+            
+            Accuracy[class], ErrorRate[class], Sensitivity[class], Specificity[class], PPV[class], NPV[class], F1[class], confusion_matrix = confusionMatrix(outputsClass, targetsClass)
+        end
+    
+        if !weighted
+            MacroSensitivity = mean(Sensitivity)
+            MacroSpecificity = mean(Specificity)
+            MacroPPV = mean(PPV)
+            MacroNPV = mean(NPV)
+            MacroF1 = mean(F1)
+            MacroAccuracy = mean(Accuracy)
+            return (Sensitivity, Specificity, PPV, NPV, F1, Accuracy, MacroSensitivity, MacroSpecificity, MacroPPV, MacroNPV, MacroF1, MacroAccuracy)
+        else
+            Weights = sum(targets, dims=1)
+            WeightedSensitivity = dot(Sensitivity, Weights) / sum(Weights)
+            WeightedSpecificity = dot(Specificity, Weights) / sum(Weights)
+            WeightedPPV = dot(PPV, Weights) / sum(Weights)
+            WeightedNPV = dot(NPV, Weights) / sum(Weights)
+            WeightedF1 = dot(F1, Weights) / sum(Weights)
+            WeightedAccuracy = sum(Accuracy .* Weights) / sum(Weights)
+            return (Sensitivity, Specificity, PPV, NPV, F1, Accuracy, WeightedSensitivity, WeightedSpecificity, WeightedPPV, WeightedNPV, WeightedF1, WeightedAccuracy)
+        end
+    end
 end
