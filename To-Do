@@ -1,5 +1,9 @@
-21.11.2023
-# 1. Find 3 articles connected to star classification
-# 2. Load, check the dataset for missing values, normalize (pre-process)
-# 3. Analyze the data
-# + Everyone decides on a way to solve the problem that will be implemented
+07.12.2023
+# 1. Normalize data after holdout
+# 2. Fix SVM hyperparameters
+# 3. Ensemble
+# 4. Save models
+# 5. Hyperparameter Plots
+# 6. Use SMOTE algorithm instead of undersampling?
+# 7. Sum up all libraries used in first cell?
+# 8. Stratified K-Fold Cross Validation for unbalanced data
