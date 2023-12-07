@@ -19,10 +19,10 @@ module Preprocessing
         targets = data[:,14];
 
         inputs = convert(Array{Float32,2}, inputs);
-        targets = oneHotEncoding(targets);
+        # targets = oneHotEncoding(targets);
 
         @assert isa(inputs, Array{<:Float32,2})
-        @assert isa(targets, AbstractArray{Bool,2})
+        @assert isa(targets, Vector{<:Any})
 
         return inputs, targets
     end
@@ -46,16 +46,16 @@ module Preprocessing
         return data
     end
 
-    function normalize_data(train_inputs::Array{<:Float32,2}, normalization::String)
+    function normalize_data(inputs::Array{<:Float32,2}, normalization::String)
         # Normalize the inputs
         # Return normalized inputs
         if normalization == "minmax"
             # Min-Max Normalization
-            train_inputs = normalizeMinMax!(train_inputs);
+            train_inputs = normalizeMinMax!(inputs);
             # test_inputs = normalizeMinMax!(test_inputs);
         elseif normalization == "zero_mean"
             # Zero Mean Normalization
-            train_inputs = normalizeZeroMean!(train_inputs);
+            train_inputs = normalizeZeroMean!(inputs);
             # test_inputs = normalizeZeroMean!(test_inputs);
         else
             error("Invalid normalization method")
