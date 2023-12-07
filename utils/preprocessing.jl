@@ -11,16 +11,14 @@ module Preprocessing
         # input_index = [4,5,6,7,8,9,11,12,13,15,16,18];
         input_index = [4,5,6,7,8];
         inputs = data[:,input_index];
+        inputs = convert(Array{Float32, 2}, inputs)
         targets = data[:,14];
-
-        inputs = convert(Array{Float32,2}, inputs);
-        targets = oneHotEncoding(targets);
 
         # Normalize the inputs
         normalizeMinMax!(inputs);
 
         @assert isa(inputs, Array{<:Float32,2})
-        @assert isa(targets, AbstractArray{Bool,2})
+        @assert isa(targets, AbstractArray)
 
         return inputs, targets
     end

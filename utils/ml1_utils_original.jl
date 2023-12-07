@@ -674,7 +674,7 @@ function trainClassANN(topology::AbstractArray{<:Int,1},
 end
 
 
-#####################   Unit 6   #############################
+#####################   Unit 6   #####################
 
 function modelCrossValidation(modelType::Symbol,
     modelHyperparameters::Dict,
@@ -693,10 +693,9 @@ function modelCrossValidation(modelType::Symbol,
 
     if modelType == :ANN
         repetitionsTraining = modelHyperparameters["repetitionsTraining"] # Non deterministic model
-        targets = oneHotEncoding(targets)
+        targets = oneHotEncoding(targets)  
     else
-        targets = reshape(targets, :, 1)   
-
+        targets = reshape(targets, :, 1) # A matrix is needed
     end
 
     
@@ -749,7 +748,6 @@ function modelCrossValidation(modelType::Symbol,
                 
                 max_depth = modelHyperparameters["max_depth"]
                 model = DecisionTreeClassifier(max_depth=max_depth, random_state=seed)
-
 
             elseif modelType == :kNN
                 
