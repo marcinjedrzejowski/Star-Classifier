@@ -1,7 +1,9 @@
 07.12.2023
-# 1. Implement zero-mean normalization
-# 2. Save models
-# 3. Hyperparameter Plots
+# 1. Implement the possibility of zero-mean normalization
+# 2. Training with the whole dataset!!! (not only 0.02%) --> choose models base on this result
+# 3. Hyperparameter Plots (copying manually acc and std dev :) )
 # 4. Use SMOTE algorithm instead of undersampling?
 # 5. Sum up all libraries used in first cell?
 # 6. Stratified K-Fold Cross Validation for unbalanced data
+# 7. Maybe some plots for final models
+# 8. Copy-pasting the functions I used from my utils into the other utils
