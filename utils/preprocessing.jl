@@ -19,7 +19,7 @@ module Preprocessing
         targets = data[:,14];
 
         N=size(inputs,1)
-        train_indices, test_indices = holdOut(N, 0.98)
+        train_indices, test_indices = holdOut(N, train_ratio)
         train_inputs = inputs[train_indices, :]
         train_targets = targets[train_indices]
         test_inputs = inputs[test_indices, :]

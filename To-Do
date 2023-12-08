@@ -7,3 +7,6 @@
 # 6. Stratified K-Fold Cross Validation for unbalanced data
 # 7. Maybe some plots for final models
 # 8. Copy-pasting the functions I used from my utils into the other utils
+# 9. OneHotEncode the targets to fit the Final Models (for the Hyperparameters it is done in the utils)
+# 10. Confusion matrix on the test data
+# 11. Remember to do holdout validation for ANNs
