@@ -19,11 +19,13 @@ module Preprocessing
         targets = data[:,14];
 
         N=size(inputs,1)
-        train_indices, test_indices = holdOut(N, 0.98)
+        train_indices, test_indices = holdOut(N, train_ratio)
         train_inputs = inputs[train_indices, :]
         train_targets = targets[train_indices]
         test_inputs = inputs[test_indices, :]
         test_targets = targets[test_indices]
+
+        println("Train_inputs before normalization: ", train_inputs[1, :])
 
         if norm_method == "minmax"
             # Min-Max Normalization
@@ -31,8 +33,8 @@ module Preprocessing
             normalizeMinMax!(test_inputs);
         elseif norm_method == "zero_mean"
             # Zero Mean Normalization
-            # train_inputs = normalizeZeroMean!(train_inputs);
-            # test_inputs = normalizeZeroMean!(test_inputs);
+            train_inputs = normalizeZeroMean!(train_inputs);
+            test_inputs = normalizeZeroMean!(test_inputs);
         else
             error("Invalid normalization method")
         end;
