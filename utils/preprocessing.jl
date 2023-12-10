@@ -3,6 +3,8 @@ module Preprocessing
     function preprocess_data(data)
         # Implement data normalization or other preprocessing steps
         # Return preprocessed data
+
+        # Remove the first row (header)
         data = data[2:end, :];
 
         # Balance the dataset
