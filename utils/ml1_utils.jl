@@ -1,5 +1,4 @@
 using Statistics;
-
 using Flux
 using Flux: crossentropy, binarycrossentropy, params
 using Random
@@ -545,7 +544,7 @@ function printMatrix(conf_matrix)
 
     for i in 1:size(conf_matrix, 1)
         for j in 1:size(conf_matrix, 2)
-            print(string(conf_matrix[i, j], "    ")[1:4])  # Four spaces for alignment
+            println(string(conf_matrix[i, j], "    ")[1:4])  # Four spaces for alignment
         end
         println()  #New line
     end
