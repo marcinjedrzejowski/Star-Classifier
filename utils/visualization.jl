@@ -41,4 +41,36 @@ module Visualization
         # Display the bar plot
         display(plot)
     end
+
+
+    function plot_confusion_metrics(acc, sensitivity, specificity, ppv, npv, f_score)
+        metrics = ["Accuracy", "Sensitivity", "Specificity", "Precision (PPV)", "NPV", "F-score"]
+        values = [acc*100, sensitivity*100, specificity*100, ppv*100, npv*100, f_score*100]
+
+        bar(metrics, values, color=[:blue, :green, :orange, :purple, :red, :brown],
+            xlabel="Metric", ylabel="Metric Value", title="Confusion Matrix Metrics", legend=false,
+            ylims=(40, 100))  # Adjust the y-axis limit if needed
+    end
+
+    function plot_confusion_heatmap(confusionMatrix)
+        p = heatmap(confusionMatrix, xticks=(1:3, ["Galaxy", "Quasar", "Star"]), yticks=(1:3, ["Galaxy", "Quasar", "Star"]),
+        color=:cividis,
+        c=:reds,
+        xlabel="Predicted label",
+        ylabel="True label",
+        title="Confusion Matrix",
+        cbar_title="Count",
+        fmt=:png,  # Format to save the plot
+        size=(500, 500)  # Adjust the size as needed
+        )
+
+        # Add the actual numbers from the confusion matrix to the heatmap
+        for i in 1:3
+            for j in 1:3
+                annotate!(p, [(i, j, text(confusionMatrix[j, i], 10, :white))])
+            end
+        end
+
+        return p  # Return the plot
+    end
 end
