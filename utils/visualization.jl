@@ -58,7 +58,7 @@ module Visualization
         c=:reds,
         xlabel="Predicted label",
         ylabel="True label",
-        title="Confusion Matrix",
+        title="Confusion Heatmap",
         cbar_title="Count",
         fmt=:png,  # Format to save the plot
         size=(500, 500)  # Adjust the size as needed
