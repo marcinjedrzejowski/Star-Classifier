@@ -681,7 +681,7 @@ function modelCrossValidation(modelType::Symbol,
     targets::AbstractArray{<:Any,1},
     crossValidationIndices::Array{Int64,1})
 
-    seed = 42
+    seed = 123
     train_set = tuple()
 
     Random.seed!(seed)
@@ -765,7 +765,7 @@ function modelCrossValidation(modelType::Symbol,
             end
             
             # Training the model
-            fit!(model, train_set[1], train_outs);
+            ScikitLearn.fit!(model, train_set[1], train_outs);
 
             predicted_outputs = []
             expected_outs = test_set[2]
@@ -774,7 +774,7 @@ function modelCrossValidation(modelType::Symbol,
                 proba_outputs = predict_proba(model, test_set[1])
                 predicted_outputs = classifyOutputs(proba_outputs)
             else
-                predicted_outputs = predict(model, test_set[1])
+                predicted_outputs = ScikitLearn.predict(model, test_set[1])
                 expected_outs = vec(test_set[2])
             end
 
