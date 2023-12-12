@@ -8,6 +8,15 @@ project_root
 │   ├── model_evaluation.jl
 │   ├── ensemble.jl
 │   └── visualization.jl
+|
+├── PDFs
+│   ├── LAMOST KNN DT RF SVM.pdf
+│   ├── SDSS Multi Layer Perceptron.pdf
+│   └── SDSS Random Forest.pdf
 │
+├── saved_models
+|
+├── HTMLs
+|
 └── datasets
     └── star_classification_data.csv
