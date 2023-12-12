@@ -681,7 +681,7 @@ function modelCrossValidation(modelType::Symbol,
     targets::AbstractArray{<:Any,1},
     crossValidationIndices::Array{Int64,1})
 
-    seed = 42
+    seed = 123
     train_set = tuple()
 
     Random.seed!(seed)
