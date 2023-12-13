@@ -1,13 +1,25 @@
 project_root
-│   main.jl
-│   report.pdf
+│   data_analysis.jl
+│   first_approach.ipynb
+│   second_approach.ipynb
+│   third_approach.ipynb
+│   fourth_approach.ipynb
+|   report.pdf
 │
 ├── utils
 │   ├── data_loader.jl
 │   ├── preprocessing.jl
-│   ├── model_evaluation.jl
-│   ├── ensemble.jl
+│   ├── crossvalidation.jl
 │   └── visualization.jl
+|
+├── PDFs
+│   ├── LAMOST KNN DT RF SVM.pdf
+│   ├── SDSS Multi Layer Perceptron.pdf
+│   └── SDSS Random Forest.pdf
 │
+├── saved_models
+|
+├── HTMLs
+|
 └── datasets
     └── star_classification_data.csv

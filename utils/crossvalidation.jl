@@ -191,6 +191,7 @@ function confusionMatrix(outputs::AbstractArray{Bool,2}, targets::AbstractArray{
     end
 
     # Initialize metrics
+    accuracy = zeros(numClasses)
     sensitivity = zeros(numClasses)
     specificity = zeros(numClasses)
     PPV = zeros(numClasses)
@@ -203,7 +204,8 @@ function confusionMatrix(outputs::AbstractArray{Bool,2}, targets::AbstractArray{
     # Iterate over each class
     for i in 1:numClasses
         if sum(targets[:, i]) != 0 # Check if there are patterns in this class
-            _, _, sens, spec, ppv, npv, f, _ = confusionMatrix(outputs[:, i], targets[:, i])
+            acc, _, sens, spec, ppv, npv, f, _ = confusionMatrix(outputs[:, i], targets[:, i])
+            accuracy[i] = acc
             sensitivity[i] = sens
             specificity[i] = spec
             PPV[i] = ppv
@@ -221,12 +223,14 @@ function confusionMatrix(outputs::AbstractArray{Bool,2}, targets::AbstractArray{
     # Aggregate metrics
     if weighted
         weights = sum(targets, dims=1) / size(targets, 1)
+        accuracy = dot(accuracy, weights)
         sensitivity = dot(sensitivity, weights)
         specificity = dot(specificity, weights)
         PPV = dot(PPV, weights)
         NPV = dot(NPV, weights)
         F_score = dot(F_score, weights)
     else
+        accuracy = sum(accuracy) / validClasses
         sensitivity = sum(sensitivity) / validClasses
         specificity = sum(specificity) / validClasses
         PPV = sum(PPV) / validClasses
@@ -234,9 +238,9 @@ function confusionMatrix(outputs::AbstractArray{Bool,2}, targets::AbstractArray{
         F_score = sum(F_score) / validClasses
     end
 
-    acc = accuracy(outputs, targets)
-    error_rate = 1 - acc
-    return acc, error_rate, sensitivity, specificity, PPV, NPV, F_score, confusion
+    error_rate = 1 - accuracy
+
+    return accuracy, error_rate, sensitivity, specificity, PPV, NPV, F_score, confusion
 end
 
 function confusionMatrix(outputs::AbstractArray{<:Real,2}, targets::AbstractArray{Bool,2}; weighted::Bool=true)
