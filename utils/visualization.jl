@@ -8,11 +8,6 @@ module Visualization
     using StatsPlots
     using StatsBase    
 
-    function plot_results(results::Dict{String, Any})
-        # Implement functions for visualizing results
-        # Plot graphs, confusion matrices, etc.
-    end
-
     function entry_visualization(data::DataFrame)
         # Analyze the data before working on it
         

@@ -1,12 +1,15 @@
 project_root
-│   main.jl
-│   report.pdf
+│   data_analysis.jl
+│   first_approach.ipynb
+│   second_approach.ipynb
+│   third_approach.ipynb
+│   fourth_approach.ipynb
+|   report.pdf
 │
 ├── utils
 │   ├── data_loader.jl
 │   ├── preprocessing.jl
-│   ├── model_evaluation.jl
-│   ├── ensemble.jl
+│   ├── crossvalidation.jl
 │   └── visualization.jl
 |
 ├── PDFs
