@@ -115,6 +115,40 @@ module Preprocessing
         return train_inputs
     end
 
+    Random.seed!(123)
+    function reduce_data(dataset::Matrix, percentage_to_keep::Float64)
+        # Extract data and targets from the dataset
+        data = dataset[:, 1:end-1]
+        targets = dataset[:, 14] 
+        
+        unique_classes = unique(targets)
+        reduced_data = Matrix{Float64}(undef, 0, size(data, 2))
+        reduced_targets = Vector{Float64}()
+
+        for class in unique_classes
+            # Get the data and targets for this class
+            class_data = data[targets .== class, :]
+            class_targets = targets[targets .== class]
+
+            # Calculate the number of rows to keep
+            num_rows_to_keep = Int(ceil(size(class_data, 1) * percentage_to_keep))
+
+            # Randomly select the subset of rows
+            indices = randperm(size(class_data, 1))[1:num_rows_to_keep]
+            subset_class_data = class_data[indices, :]
+            subset_class_targets = class_targets[indices]
+
+            # Append the reduced data and targets for this class to the overall reduced data and targets
+            reduced_data = vcat(reduced_data, subset_class_data)
+            reduced_targets = vcat(reduced_targets, subset_class_targets)
+        end
+
+        # Combine reduced data and targets
+        reduced_dataset = hcat(reduced_data, reduced_targets)
+
+        return reduced_dataset
+    end
+
     """   I used my own holdout function from my utils.  """ 
 
     function holdOut(N::Int, P::Real)

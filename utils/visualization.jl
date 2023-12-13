@@ -8,11 +8,6 @@ module Visualization
     using StatsPlots
     using StatsBase    
 
-    function plot_results(results::Dict{String, Any})
-        # Implement functions for visualizing results
-        # Plot graphs, confusion matrices, etc.
-    end
-
     function entry_visualization(data::DataFrame)
         # Analyze the data before working on it
         
@@ -58,7 +53,7 @@ module Visualization
         c=:reds,
         xlabel="Predicted label",
         ylabel="True label",
-        title="Confusion Matrix",
+        title="Confusion Heatmap",
         cbar_title="Count",
         fmt=:png,  # Format to save the plot
         size=(500, 500)  # Adjust the size as needed
